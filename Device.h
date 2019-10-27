@@ -2,7 +2,7 @@ class Device{
   private:
     byte pinRelay; // pin out of relay
     byte pinTouch; // pin in of touch switch
-    long interval = 300000; // 300000 = 5' time of step
+    long interval = 60000; // 60000 = 1' time of step
     int numTimerTimes = 0; // times of timer mode
     int numOscillationTimes = 0; // times of oscillation mode
     bool isRunning = false; // status on/off
@@ -12,6 +12,12 @@ class Device{
     Device(byte pinRelay, byte pinTouch){
       this->pinRelay = pinRelay;
       this->pinTouch = pinTouch;
+    }
+
+    Device(byte pinRelay, byte pinTouch, long interval){
+      this->pinRelay = pinRelay;
+      this->pinTouch = pinTouch;
+      this->interval = interval;
     }
     
     void init(){

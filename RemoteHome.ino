@@ -33,7 +33,7 @@ decode_results results;// lưu giữ kết quả giải mã tín hiệu
 #define pinNotify 3
 
 Device device1(9, 5);
-Device device2(8, 4);
+Device device2(8, 4, 1800000); // interval = 1800000 = 30'
 
 void setup()
 {
