@@ -5,6 +5,8 @@ class Device{
     long interval = 60000; // 60000 = 1' time of step
     int numTimerTimes = 0; // times of timer mode
     int numOscillationTimes = 0; // times of oscillation mode
+    int numMosquitoTimes = 0; // times of mosquito mode
+    int timeLiveMosquito = 30000; // time live on mode
     bool isRunning = false; // status on/off
     unsigned long millisWhenStart = 0; // = millis() when start mode
     
@@ -43,6 +45,7 @@ class Device{
       isRunning ? off() : on();
       numTimerTimes = 0;
       numOscillationTimes = 0;
+      numMosquitoTimes = 0;
     }
 
     // if touch (hardware) => toggle
@@ -58,6 +61,7 @@ class Device{
       on();
       numTimerTimes++;
       numOscillationTimes = 0;
+      numMosquitoTimes = 0;
       millisWhenStart = millis();
     }
 
@@ -74,6 +78,7 @@ class Device{
       on();
       numOscillationTimes++;
       numTimerTimes = 0;
+      numMosquitoTimes = 0;
       millisWhenStart = millis();
     }
 
@@ -94,12 +99,38 @@ class Device{
       }
     }
 
+    // call mosquito mode
+    void mosquitoTick(){
+      on();
+      numOscillationTimes = 0;
+      numTimerTimes = 0;
+      numMosquitoTimes++;
+      millisWhenStart = millis();
+    }
+
+    void mosquitoEndStep(){
+      if(millis() - millisWhenStart >= interval * numMosquitoTimes + timeLiveMosquito){
+        on();
+        millisWhenStart = millis();
+      }else{
+        off();
+      }
+    }
+
+    void mosquitoMode(){
+      if (millis() - millisWhenStart >= timeLiveMosquito) {
+        mosquitoEndStep();
+      }
+    }
+
     // listen mode
     void modeListener(){
       if(numTimerTimes > 0){
         timerMode();
       }else if(numOscillationTimes > 0){
-        oscillationMode();  
+        oscillationMode();
+      }else if(numMosquitoTimes > 0){
+        mosquitoMode();
       }
     }
 };

@@ -74,6 +74,10 @@ void loop()
         device1.oscillationTick();
         notify();
         break;
+      case 14475825: //mosquito
+        device1.mosquitoTick();
+        notify();
+        break;
         
       // device 2
       case 2737486129: //power
@@ -86,6 +90,10 @@ void loop()
         break;
       case 970202566: //oscillation
         device2.oscillationTick();
+        notify();
+        break;
+      case 924466310: //mosquito
+        device2.mosquitoTick();
         notify();
         break;
     }
